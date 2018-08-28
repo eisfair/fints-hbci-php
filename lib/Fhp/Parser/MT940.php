@@ -14,6 +14,8 @@ class MT940
 
     const CD_CREDIT = 'credit';
     const CD_DEBIT = 'debit';
+    const CD_DEBIT_CANCELED = 'debit cancellation';
+    const CD_CREDIT_CANCELED = 'credit cancellation';
 
     /** @var string */
     protected $rawData;
@@ -102,6 +104,10 @@ class MT940
                         $trx[count($trx)]['credit_debit'] = static::CD_CREDIT;
                     } elseif ($trxMatch[2] == 'D') {
                         $trx[count($trx)]['credit_debit'] = static::CD_DEBIT;
+                    } elseif ($trxMatch[2] == 'RC') {
+                        $trx[count($trx)]['credit_debit'] = static::CD_CREDIT_CANCELED;
+                    } elseif ($trxMatch[2] == 'RD') {
+                        $trx[count($trx)]['credit_debit'] = static::CD_DEBIT_CANCELED;
                     } else {
                         throw new MT940Exception('cd mark not found in: ' . $transaction);
                     }
